@@ -35,12 +35,10 @@ export function Textarea(
 }
 
 export default function Page() {
-    const [dbUrl, setDbUrl] = useSessionStorageState<string>(DB_URL_KEY, {defaultValue: DEFAULT_DB_URL })
-    const [ dbUrlVal, setDbUrlVal ] = useSessionStorageState<string>(DB_URL_VAL_KEY, { defaultValue: dbUrl })
+    const [ dbUrl, setDbUrl ] = useSessionStorageState<string>(DB_URL_KEY, { defaultValue: DEFAULT_DB_URL })
     const [ db, setDb ] = useState<AsyncDuckDB | null>(null)
     const ref = useRef<HTMLTextAreaElement>(null);
     const [ result, setResult ] = useSessionStorageState<any>(RESULT_KEY, { defaultValue: null })
-    const [ query, setQuery ] = useSessionStorageState<string>(QUERY_KEY, { defaultValue: DEFAULT_QUERY })
     useEffect(
         () => {
             initDuckDb({ path: dbUrl, }).then(db => setDb(db))
@@ -81,30 +79,13 @@ export default function Page() {
                     }
                 }}
             />
-            <h2>Database:</h2>
-            <textarea
-                className={css.dbUrl}
-                onKeyDown={e => {
-                    if (e.code === 'Enter') {
-                        e.preventDefault();
-                        const newDb = (e.target as HTMLTextAreaElement).value
-                        console.log("new db:", newDb)
-                        setDbUrl(newDb)
-                    }
-                }}
-                onChange={e => {
-                    const dbUrlVal = (e.target as HTMLTextAreaElement).value
-                    // console.log("new db:", dbUrlVal)
-                    setDbUrlVal(dbUrlVal)
-                }}
-                value={dbUrlVal}
-            />
         </div>
         <div className={css.row}>
-            <h2>Query:</h2>
-            <textarea
+            <Textarea
+                title={"Query"}
                 className={css.query}
-                ref={ref}
+                storageKey={QUERY_KEY}
+                defaultValue={DEFAULT_QUERY}
                 onKeyDown={e => {
                     // console.log("key:", e.code, e)
                     if (e.code === 'Enter' && e.shiftKey) {
@@ -112,20 +93,13 @@ export default function Page() {
                         run()
                     }
                 }}
-                value={query}
-                onChange={e => {
-                    const query = ref.current?.value
-                    setQuery(query || "")
-                }}
             />
         </div>
         <div className={css.row}>
             <button
                 type={"button"}
                 className={css.button}
-                onClick={() => {
-                    run()
-                }}
+                onClick={() => { run() }}
             >
                 Run
             </button>
