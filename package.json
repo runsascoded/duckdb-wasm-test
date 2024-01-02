@@ -9,16 +9,18 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "next": "14.0.4",
-    "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "@duckdb/duckdb-wasm": "^1.28.0",
+    "next": "^13.3.4",
+    "next-utils": "https://gitpkg.now.sh/runsascoded/next-utils/dist?b51b3fe",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "sass": "^1.69.6",
+    "use-session-storage-state": "^18.2.0"
   },
   "devDependencies": {
-    "@types/node": "20.10.6",
-    "@types/react": "18.2.46",
-    "@types/react-dom": "18.2.18",
-    "eslint": "8.56.0",
-    "eslint-config-next": "14.0.4",
-    "typescript": "5.3.3"
+    "@types/node": "^20.10.6",
+    "@types/react": "^18.2.46",
+    "@types/react-dom": "^18.2.18",
+    "typescript": "^5.3.3"
   }
 }
