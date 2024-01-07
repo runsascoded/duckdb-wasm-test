@@ -1,17 +1,16 @@
-import React, { ChangeEventHandler, Dispatch, HTMLProps, useCallback, useEffect, useRef, useState } from "react";
+import React, { ChangeEventHandler, Dispatch, HTMLProps, useCallback, useEffect, useState } from "react";
 import { initDuckDb, runQuery } from "next-utils/parquet"
 import { AsyncDuckDB } from "@duckdb/duckdb-wasm";
 import useSessionStorageState from 'use-session-storage-state'
 import css from "./index.module.scss"
 
-const dbUrls = [
-    's3://duckdb-repl/1.duckdb',
-    's3://duckdb-repl/1-idx.duckdb',
-    's3://duckdb-repl/2.duckdb',
-    's3://duckdb-repl/2-idx.duckdb',
-    's3://duckdb-repl/3.duckdb',
-    's3://duckdb-repl/3-idx.duckdb',
+const keys = [
+    '1e5', '2e5', '5e5',
+    '1e6', '2e6', '4e6', '6e6',
 ]
+const bkt = 'duckdb-repl'
+const prefix = `s3://${bkt}`
+const dbUrls = ([] as string[]).concat(...keys.map(k => [ `${prefix}/${k}.duckdb`, `${prefix}/${k}-idx.duckdb` ]))
 
 const QUERY_KEY = 'duckdb-query'
 const DEFAULT_QUERY = `select count(*) from crashes`
@@ -59,6 +58,7 @@ export function Repl() {
     const [ db, setDb ] = useState<AsyncDuckDB | null>(null)
     const [ query, setQuery ] = useSessionStorageState<string>(QUERY_KEY, { defaultValue: DEFAULT_QUERY })
     const [ result, setResult ] = useSessionStorageState<any>(RESULT_KEY, { defaultValue: null })
+    const [ runningAll, setRunningAll ] = useState(false)
     useEffect(
         () => {
             console.log("initializing db:", dbUrl)
@@ -86,6 +86,31 @@ export function Repl() {
             })
         },
         [ db, query ]
+    )
+    const runAll = useCallback(
+        () => {
+            if (!query) return
+            console.log("running all:", query)
+            setRunningAll(true)
+            Promise.all(
+                dbUrls.map(dbUrl => {
+                    const name = dbUrl.split('/').pop()
+                    return initDuckDb({ path: dbUrl, }).then(db => {
+                        console.log("got db:", name)
+                        return runQuery(db, query)
+                    }).then(result => {
+                        console.log(`db ${name} result:`, result)
+                        return [ name, result ]
+                    })
+                })
+            ).then(results => {
+                const obj = Object.fromEntries(results)
+                console.log("done:", obj)
+                setResult(obj)
+                setRunningAll(false)
+            })
+        },
+        [ query ]
     )
     useEffect(
         () => {
@@ -134,6 +159,14 @@ export function Repl() {
                 onClick={() => { run() }}
             >
                 Run
+            </button>
+            <button
+                type={"button"}
+                className={css.button}
+                disabled={runningAll}
+                onClick={() => { runAll() }}
+            >
+                Run all
             </button>
         </div>
         <div className={css.row}>

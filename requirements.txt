@@ -1,7 +1,10 @@
 boto3
 duckdb==0.9.2
+fastparquet
 humanize
 jupyter
 jupyter-client<7
+kaleido
 pandas
+plotly
 utz
