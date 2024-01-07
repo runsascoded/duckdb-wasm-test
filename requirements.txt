@@ -6,5 +6,6 @@ jupyter
 jupyter-client<7
 kaleido
 pandas
+papermill
 plotly
 utz
