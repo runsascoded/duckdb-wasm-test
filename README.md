@@ -38,9 +38,12 @@ Open the resulting server (likely at http://localhost:3000/), or visit [runsasco
 1. Download .har file
 
 ### 2. Analyze `.har` file
-Move `.har` file to this directory, and give it a name; two examples in this repo:
-- `fetch-1.har` (`select * from crashes limit 1`; see [fetch-1/](fetch-1/))
-- `select-1.har` (`select * from crashes where id=50000`; see [select-1/](select-1/))
+Move `.har` file to this directory, and give it a name, e.g. the examples in this repo were generated from `.har`s named:
+- `fetch-1.har` (see [fetch-1/](fetch-1): `select * from crashes limit 1`)
+- `select-1.har` (see [select-1/](select-1): `select * from crashes where id=50000`)
+- `count-star.har` (see [count-star/](count-star): `select count(*) from crashes`)
+
+(the `.har`s themselves are `.gitignore`d, as they're pretty large)
 
 Then run [analyze-reqs.ipynb](analyze-reqs.ipynb) on it:
 
