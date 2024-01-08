@@ -123,11 +123,12 @@ export function Repl() {
         [ db ]
     )
     const basePath = getBasePath()
+    const github = "https://github.com/runsascoded/duckdb-wasm-test#duckdb-wasm-test"
     return <div className={css.main}>
         <details className={css.edu}>
             <summary>Instructions</summary>
-            <img src={`${basePath}/duckdb-wasm-test%20screenshot.png`} />
-            <p>More info <A href={"https://github.com/runsascoded/duckdb-wasm-test#duckdb-wasm-test"}>on GitHub</A>.</p>
+            <A href={github}><img src={`${basePath}/duckdb-wasm-test%20screenshot.png`} /></A>
+            <p>More info <A href={github}>on GitHub</A>.</p>
             <hr/>
         </details>
         <div className={css.row}>
