@@ -8,7 +8,7 @@ const keys = [
     '1e5', '2e5', '5e5',
     '1e6', '2e6', '4e6', '6e6',
 ]
-const bkt = 'duckdb-repl'
+const bkt = 'duckdb-wasm-test'
 const prefix = `s3://${bkt}`
 const dbUrls = ([] as string[]).concat(...keys.map(k => [ `${prefix}/${k}.duckdb`, `${prefix}/${k}-idx.duckdb` ]))
 
