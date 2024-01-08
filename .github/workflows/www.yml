@@ -14,5 +14,7 @@ jobs:
       - name: Build and Deploy
         uses: JamesIves/github-pages-deploy-action@4.1.4
         with:
+          repository-name: ryan-williams/duckdb-wasm-test
           branch: gh-pages
           folder: out
+          token: ${{ secrets.ghp_pat }}  # expires 2024-04-06
