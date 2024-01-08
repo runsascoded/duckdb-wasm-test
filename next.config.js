@@ -9,6 +9,9 @@ if (process.env.CI) {
 const nextConfig = {
   swcMinify: true,
   output: "export",
+  publicRuntimeConfig: {
+    ...basePathArgs,
+  },
   ...basePathArgs
 }
 

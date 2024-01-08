@@ -11,7 +11,7 @@ jobs:
       - run: npm ci
       - run: npm run build
       - run: touch out/.nojekyll
-      - name: Build and Deploy
+      - name: Deploy
         uses: JamesIves/github-pages-deploy-action@4.1.4
         with:
           repository-name: ryan-williams/duckdb-wasm-test

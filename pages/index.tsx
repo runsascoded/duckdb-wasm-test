@@ -3,6 +3,8 @@ import { initDuckDb, runQuery } from "next-utils/parquet"
 import { AsyncDuckDB } from "@duckdb/duckdb-wasm";
 import useSessionStorageState from 'use-session-storage-state'
 import css from "./index.module.scss"
+import { getBasePath } from "next-utils/basePath";
+import A from "next-utils/a";
 
 const keys = [
     '1e5', '2e5', '5e5',
@@ -120,7 +122,14 @@ export function Repl() {
         },
         [ db ]
     )
+    const basePath = getBasePath()
     return <div className={css.main}>
+        <details className={css.edu}>
+            <summary>Instructions</summary>
+            <img src={`${basePath}/duckdb-wasm-test%20screenshot.png`} />
+            <p>More info <A href={"https://github.com/runsascoded/duckdb-wasm-test#duckdb-wasm-test"}>on GitHub</A>.</p>
+            <hr/>
+        </details>
         <div className={css.row}>
             <select
                 className={css.dbUrl}

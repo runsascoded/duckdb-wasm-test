@@ -28,7 +28,7 @@ next dev
 
 Open the resulting server (likely at http://localhost:3000/), or visit [runsascoded.com/duckdb-wasm-test](https://runsascoded.com/duckdb-wasm-test/):
 
-![](duckdb-wasm-test%20screenshot.png)
+![](public/duckdb-wasm-test%20screenshot.png)
 
 1. Enter query
 1. Clear "Network" tab
