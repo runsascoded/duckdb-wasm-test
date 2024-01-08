@@ -13,6 +13,10 @@ Fetch 1 row from each of several `s3://duckdb-wasm-test/*.duckdb` files in S3:
 ![](select-1/fetched.png)
 (see [select-1/](select-1/))
 
+### Count rows
+![](count-star/fetched.png)
+(see [count-star/](count-star/))
+
 ## Methods
 
 ### 1. Perform queries, download `.har` file
@@ -41,10 +45,14 @@ Move `.har` file to this directory, and give it a name; two examples in this rep
 Then run [analyze-reqs.ipynb](analyze-reqs.ipynb) on it:
 
 ```bash
-pip install -r requirements.txt
 name=fetch-1  # use your .har file's stem
+query=…       # query you entered in step 1. above
+
+pip install -r requirements.txt
 mkdir -p "$name"
-papermill -p name "$name" analyze-reqs.ipynb "$name/analyze-reqs.ipynb"
+echo "$query" > "$name/query.sql"
+nb=analyze-reqs.ipynb
+papermill -p name "$name" $nb "$name/$nb"
 ```
 
 The `$name/` directory will contain a `fetched.png` like the plots above.
